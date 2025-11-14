@@ -6,7 +6,7 @@ ruby file: ".ruby-version"
 gem "rails", "~> 7.2.2"
 
 # Drivers
-gem "pg", "~> 1.5"
+gem "sqlite3", "~> 1.7", platforms: [ :ruby ]
 gem "redis", "~> 5.4"
 
 # Deployment
@@ -114,4 +114,8 @@ group :test do
   gem "webmock"
   gem "climate_control"
   gem "simplecov", require: false
+end
+
+group :production do
+  gem "pg", "~> 1.5"
 end

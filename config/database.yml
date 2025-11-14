@@ -1,4 +1,17 @@
 default: &default
+  adapter: sqlite3
+  database: <%= Rails.root.join("db", "local", "#{Rails.env}.sqlite3") %>
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS", 5) %>
+  timeout: 5000
+
+development:
+  <<: *default
+
+test:
+  <<: *default
+  database: <%= Rails.root.join("db", "local", "test.sqlite3") %>
+
+production:
   adapter: postgresql
   encoding: unicode
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 3 } %>
@@ -6,15 +19,4 @@ default: &default
   port: <%= ENV.fetch("DB_PORT") { "5432" } %>
   user: <%= ENV.fetch("POSTGRES_USER") { nil } %>
   password: <%= ENV.fetch("POSTGRES_PASSWORD") { nil } %>
-
-development:
-  <<: *default
-  database: <%= ENV.fetch("POSTGRES_DB") { "maybe_development" } %>
-
-test:
-  <<: *default
-  database: <%= ENV.fetch("POSTGRES_DB") { "maybe_test" } %>
-
-production:
-  <<: *default
   database: <%= ENV.fetch("POSTGRES_DB") { "maybe_production" } %>

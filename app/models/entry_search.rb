@@ -16,10 +16,8 @@ class EntrySearch
       return scope if search.blank?
 
       query = scope
-      query = query.where("entries.name ILIKE :search",
-        search: "%#{ActiveRecord::Base.sanitize_sql_like(search)}%"
-      )
-      query
+      match_expression = Entry.ilike(:name, search)
+      query.where(match_expression)
     end
 
     def apply_date_filters(scope, start_date, end_date)

@@ -240,14 +240,14 @@ end
     end
 
     def apply_search(query)
-      search_term = "%#{params[:search]}%"
+      term = params[:search].to_s
+      entry_name_match = Entry.ilike(:name, term)
+      entry_notes_match = Entry.ilike(:notes, term)
+      merchant_name_match = Merchant.ilike(:name, term)
 
       query.joins(:entry)
            .left_joins(:merchant)
-           .where(
-             "entries.name ILIKE ? OR entries.notes ILIKE ? OR merchants.name ILIKE ?",
-             search_term, search_term, search_term
-           )
+           .where(entry_name_match.or(entry_notes_match).or(merchant_name_match))
 end
 
     def transaction_params

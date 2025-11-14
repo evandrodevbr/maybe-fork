@@ -67,19 +67,22 @@ class Rule::ConditionFilter
     end
 
     def build_sanitized_where_condition(field, operator, value)
-      sanitized_value = operator == "like" ? "%#{ActiveRecord::Base.sanitize_sql_like(value)}%" : value
+      if operator == "like" && ApplicationRecord.sqlite_adapter?
+        sanitized_value = "%#{ActiveRecord::Base.sanitize_sql_like(value.to_s.downcase)}%"
+        clause = "LOWER(#{field}) LIKE ?"
+      else
+        sanitized_value = operator == "like" ? "%#{ActiveRecord::Base.sanitize_sql_like(value)}%" : value
+        clause = "#{field} #{sanitize_operator(operator)} ?"
+      end
 
-      ActiveRecord::Base.sanitize_sql_for_conditions([
-        "#{field} #{sanitize_operator(operator)} ?",
-        sanitized_value
-      ])
+      ActiveRecord::Base.sanitize_sql_for_conditions([ clause, sanitized_value ])
     end
 
     def sanitize_operator(operator)
       raise UnsupportedOperatorError, "Unsupported operator: #{operator} for type: #{type}" unless operators.map(&:last).include?(operator)
 
       if operator == "like"
-        "ILIKE"
+        ApplicationRecord.sqlite_adapter? ? "LIKE" : "ILIKE"
       else
         operator
       end

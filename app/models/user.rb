@@ -1,4 +1,8 @@
 class User < ApplicationRecord
+  include SqliteArraySerialization
+
+  sqlite_array_attribute :otp_backup_codes, :goals
+
   has_secure_password
 
   belongs_to :family

@@ -1,5 +1,8 @@
 class PlaidItem < ApplicationRecord
   include Syncable, Provided
+  include SqliteArraySerialization
+
+  sqlite_array_attribute :available_products, :billed_products
 
   enum :plaid_region, { us: "us", eu: "eu" }
   enum :status, { good: "good", requires_update: "requires_update" }, default: :good
