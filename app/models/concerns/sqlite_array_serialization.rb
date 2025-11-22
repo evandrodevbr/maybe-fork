@@ -16,7 +16,7 @@ module SqliteArraySerialization
       self.sqlite_serialized_array_attributes |= normalized_attributes
 
       normalized_attributes.each do |attribute|
-        serialize attribute, Array
+        serialize attribute, type: Array
       end
 
       unless sqlite_array_defaults_callback_registered

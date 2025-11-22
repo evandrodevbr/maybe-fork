@@ -6,8 +6,8 @@ class ApplicationRecord < ActiveRecord::Base
       connection_db_config&.adapter == "sqlite3"
     rescue ActiveRecord::ConnectionNotEstablished
       config = ActiveRecord::Base.configurations.configs_for(
-        env_name: Rails.env, name: "primary", include_replicas: false
-      ).first
+        env_name: Rails.env, name: "primary"
+      )
       config&.adapter == "sqlite3"
     end
 

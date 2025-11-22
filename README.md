@@ -54,6 +54,7 @@ For further instructions, see guides below.
 - [Mac dev setup guide](https://github.com/maybe-finance/maybe/wiki/Mac-Dev-Setup-Guide)
 - [Linux dev setup guide](https://github.com/maybe-finance/maybe/wiki/Linux-Dev-Setup-Guide)
 - [Windows dev setup guide](https://github.com/maybe-finance/maybe/wiki/Windows-Dev-Setup-Guide)
+- [SQLite / Litestack compatibility guide](docs/sqlite_compatibility.md)
 - Dev containers - visit [this guide](https://code.visualstudio.com/docs/devcontainers/containers) to learn more
 
 ## Copyright & license
